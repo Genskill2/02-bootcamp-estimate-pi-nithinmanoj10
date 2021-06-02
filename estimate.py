@@ -1,5 +1,48 @@
 import math
 import unittest
+import random
+
+# function to calculate the Wallis product estimate of Pi
+def wallis(n):
+    PI = 2.0;
+    leftProduct = 0.0;
+    rightProduct = 0.0;
+    for x in range(1,n):
+        leftProduct = (2.0 * x)/((2.0 * x)-1.0);
+        rightProduct = (2.0 * x)/((2.0 * x)+1.0);
+        PI *= (leftProduct * rightProduct);
+
+    return(PI);
+
+# returns true if the given point is inside the circle, else false
+def checkInCircle(x,y):
+    equality = (x-1)**2 + (y-1)**2;
+    if(equality <= 1):
+        return True;
+    else:
+        return False;
+
+# function for the Monte-Carlo simulation
+def monte_carlo(n):
+
+    PI = 0.0;
+
+    x_coordinate = 0 # x coordinate of dart throw
+    y_coordinate = 0 # y coordinate of dart throw
+
+    total_darts = 0  # total darts thrown
+    darts_in_circle = 0 #total darts inside circle 
+
+    for x in range(n):
+        x_coordinate = random.random() * 2;
+        y_coordinate = random.random() * 2;
+
+        if(checkInCircle(x_coordinate,y_coordinate) == True):
+            darts_in_circle = darts_in_circle + 1;
+        total_darts = total_darts + 1;
+
+    PI = (darts_in_circle/total_darts)*4;
+    return(PI);
 
 class TestWallis(unittest.TestCase):
     def test_low_iters(self):
